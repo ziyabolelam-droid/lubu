@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign In | Lebu+</title>
+<meta name="description" content="Sign in or create a local profile for your Lebu+ browsing experience.">
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+.auth-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:7rem 1rem 3rem;background:radial-gradient(circle at 15% 15%,rgba(46,196,182,.13),transparent 30%),radial-gradient(circle at 85% 80%,rgba(242,165,65,.12),transparent 28%),var(--bg)}
+.auth-card{width:100%;max-width:460px;background:var(--surface);border:1px solid var(--surface-2);border-radius:1.25rem;padding:clamp(1.5rem,5vw,2.5rem);box-shadow:0 24px 70px rgba(0,0,0,.28)}
+.auth-card .form-control{background:#0b1416;color:var(--text);border-color:#355057;padding:.8rem .9rem}
+.auth-card .form-control:focus{border-color:var(--accent-2);box-shadow:0 0 0 .2rem rgba(46,196,182,.18)}
+.auth-card .form-label{font-weight:400}.auth-logo{display:block;width:150px;max-height:60px;object-fit:contain;margin:0 auto 1.4rem}.auth-note{font-size:.85rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<header><nav id="site-nav" class="navbar navbar-expand-lg navbar-dark fixed-top" aria-label="Main navigation"><div class="container">
+<a class="navbar-brand brand" href="index.html"><img src="images/logo.svg" alt="Lebu+" height="40" style="width:auto"></a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navLinks" aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+<div class="collapse navbar-collapse" id="navLinks"><ul class="navbar-nav ms-auto gap-lg-3"><li class="nav-item"><a class="nav-link" href="index.html">Home</a></li><li class="nav-item"><a class="nav-link" href="browse.html">Browse</a></li><li class="nav-item"><a class="nav-link" href="mylist.html">My List</a></li><li class="nav-item"><a class="nav-link" href="about.html">About &amp; Help</a></li></ul><a class="btn btn-lumora btn-sm ms-lg-3 mt-2 mt-lg-0" id="account-button" href="signin.html" aria-current="page">Sign In</a></div>
+</div></nav></header>
+<main class="auth-page"><section class="auth-card" aria-labelledby="auth-title">
+<img class="auth-logo" src="images/logo-full.svg" alt="Lebu+ — Stories worth discovering">
+<h1 class="h2 text-center mb-2" id="auth-title">Welcome back</h1><p class="text-secondary text-center mb-4" id="auth-subtitle">Sign in to your Lebu+ local profile.</p>
+<div id="auth-message" class="alert d-none" role="status" aria-live="polite"></div>
+<form id="auth-form">
+<div class="mb-3" id="name-field"><label for="full-name" class="form-label">Full name</label><input class="form-control" id="full-name" name="name" autocomplete="name" minlength="2" maxlength="60" placeholder="Your name"></div>
+<div class="mb-3"><label for="email" class="form-label">Email address</label><input class="form-control" id="email" name="email" type="email" autocomplete="email" required maxlength="120" placeholder="you@example.com"></div>
+<div class="mb-3"><label for="password" class="form-label">Password</label><input class="form-control" id="password" name="password" type="password" autocomplete="current-password" required minlength="6" placeholder="At least 6 characters"></div>
+<button class="btn btn-lumora w-100 mt-2" type="submit" id="submit-button">Sign In</button>
+</form>
+<p class="text-center mt-4 mb-2"><span id="switch-prompt">New to Lebu+?</span> <button class="btn btn-link p-0 align-baseline" type="button" id="switch-mode">Create a profile</button></p>
+<p class="auth-note text-center mb-0">verify passwords or create a secure online account.Rea O Amohela Mosotho oa Heso</p>
+<div class="text-center mt-4"><a href="index.html" class="text-decoration-none">← Back to exploring Lebu+</a></div>
+</section></main>
+<script>
+(() => {
+ const KEY='lebu-plus-profile';
+ const form=document.getElementById('auth-form'), nameInput=document.getElementById('full-name'), nameField=document.getElementById('name-field');
+ const email=document.getElementById('email'), password=document.getElementById('password');
+ const title=document.getElementById('auth-title'), subtitle=document.getElementById('auth-subtitle'), submit=document.getElementById('submit-button');
+ const accountButton=document.getElementById('account-button');
+ function updateAccountButton(profile){ if(accountButton) accountButton.textContent=profile && profile.name ? 'Hi, '+profile.name.trim().split(/\s+/)[0] : 'Sign In'; }
+ try { updateAccountButton(JSON.parse(localStorage.getItem(KEY))); } catch(e) { updateAccountButton(null); }
+ const switchPrompt=document.getElementById('switch-prompt'), switchButton=document.getElementById('switch-mode'), message=document.getElementById('auth-message');
+ let mode='signin';
+ try { const profile=JSON.parse(localStorage.getItem(KEY)); if(profile){email.value=profile.email||''; nameInput.value=profile.name||'';} } catch(e) {}
+ function setMode(next){mode=next; const creating=mode==='create'; nameField.classList.toggle('d-none',!creating); nameInput.required=creating; password.autocomplete=creating?'new-password':'current-password'; title.textContent=creating?'Create your Lebu+ profile':'Welcome back'; subtitle.textContent=creating?'Set up a local profile for this browser.':'Sign in to your Lebu+ local profile.'; submit.textContent=creating?'Create Profile':'Sign In'; switchPrompt.textContent=creating?'Already have a profile?':'New to Lebu+?'; switchButton.textContent=creating?'Sign in':'Create a profile'; message.classList.add('d-none'); }
+ switchButton.addEventListener('click',()=>setMode(mode==='signin'?'create':'signin'));
+ form.addEventListener('submit',e=>{e.preventDefault(); if(!form.reportValidity())return; let profile=null; try{profile=JSON.parse(localStorage.getItem(KEY));}catch(e){}
+   if(mode==='signin' && profile && profile.email.toLowerCase()!==email.value.trim().toLowerCase()){message.className='alert alert-warning';message.textContent='That email does not match the local profile saved in this browser. Try the saved email or create a new profile.';return;}
+   if(mode==='signin' && !profile){message.className='alert alert-info';message.textContent='No local profile was found in this browser yet. Choose “Create a profile” to set one up.';return;}
+   const name=mode==='create'?nameInput.value.trim():profile.name;
+   const next={name:name||email.value.trim().split('@')[0],email:email.value.trim()};
+   localStorage.setItem(KEY,JSON.stringify(next));
+   updateAccountButton(next);
+   message.className='alert alert-success';message.textContent=`Welcome${next.name?' '+next.name.split(' ')[0]:''}! Your local profile is ready.`;
+   password.value='';submit.textContent='Profile Saved';
+   setTimeout(()=>{window.location.href='index.html';},1000);
+ });
+ setMode('signin');
+})();
+</script>
+</body></html>

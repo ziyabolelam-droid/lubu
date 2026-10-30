@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="415 247 427 438"><defs>
+<linearGradient id="gL" x1="0.1" y1="0" x2="0.55" y2="1"><stop offset="0" stop-color="#ffd488"/><stop offset=".45" stop-color="#f2a541"/><stop offset="1" stop-color="#e48a1c"/></linearGradient>
+<linearGradient id="gFoot" x1="0" y1="0" x2="1" y2="0.4"><stop offset="0" stop-color="#b86a0e"/><stop offset="1" stop-color="#e48a1c"/></linearGradient>
+<linearGradient id="gTri" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7cf0e4"/><stop offset=".5" stop-color="#2ec4b6"/><stop offset="1" stop-color="#1b9a8f"/></linearGradient>
+<linearGradient id="gPlus" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7cf0e4"/><stop offset="1" stop-color="#1fae9f"/></linearGradient>
+<clipPath id="cL"><path d="M557,300 Q557,277 540,280 L470,312 Q445,324 445,350 L445,540 Q445,600 490,630 Q525,653 575,653 L735,653 Q750,653 760,643 L800,603 Q812,590 806,572 Q800,553 778,553 L580,553 Q557,553 557,530Z"/></clipPath>
+</defs><g transform="translate(0,0)">
+<path d="M557,300 Q557,277 540,280 L470,312 Q445,324 445,350 L445,540 Q445,600 490,630 Q525,653 575,653 L735,653 Q750,653 760,643 L800,603 Q812,590 806,572 Q800,553 778,553 L580,553 Q557,553 557,530Z" fill="url(#gL)"/>
+<path clip-path="url(#cL)" fill="url(#gFoot)" d="M556,548 L830,548 L830,670 L740,670 C650,655 585,610 556,548Z"/>
+<path d="M610,357 L741,436 L610,507Z" fill="url(#gTri)" stroke="url(#gTri)" stroke-width="24" stroke-linejoin="round"/>
+</g></svg>
